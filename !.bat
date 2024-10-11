@@ -2,31 +2,31 @@
 
 :: https://stackoverflow.com/questions/15561997/batch-file-playlist-random-sort
 
-set file=!.html
-set tempfile=%TEMP%\tmp.tmp
+set previewfile=%cd%\preview.html
 
-if exist "%tempfile%" del "%tempfile%"
+if exist "%previewfile%" del "%previewfile%"
 
-echo ^<!-- --^> >%file%
- 
+:: Build file header
+echo ^<!doctype html^>>%previewfile%
+echo ^<html lang=en^> >>%previewfile%
+echo ^<head^> >>%previewfile%
+echo ^<meta charset=utf-8^> >>%previewfile%
+echo ^<title^>Icons preview^</title^> >>%previewfile%
+echo ^</head^> >>%previewfile%
+echo ^<body^> >>%previewfile%
+echo ^<p^>Preview icons:^<br^>^</p^> >>%previewfile%
+
 ::
 :: Write the list of filenames with each
 :: prefixed by a random number and a colon
 ::
-pushd icons
 setlocal EnableDelayedExpansion
-for /f %%f in ('dir /b *.gif;*.jpg;*.png') do echo !random!:^<img src="icons/%%f" style="max-width: 400px; max-height: 400px;"^> >> !tempfile!
+for /f %%f in ('dir /on /b icons\*.gif;icons\*.jpg;icons\*.png') do echo ^<img src="icons/%%f" style="max-width: 400px; max-height: 400px;"^>>> !previewfile!
 endlocal
-popd
 
-::
-:: Write the playlist.
-:: sort the tempfile (which places it 
-:: in random order) and remove the number:
-::
-(FOR /f "tokens=1*delims=:" %%i IN (' sort ^<%tempfile% ') DO ECHO %%j
-) >%file%
+:: Build file footer
+echo ^</body^> >>%previewfile%
+echo ^</html^> >>%previewfile%
 
-del %tempfile%
 
 pause
