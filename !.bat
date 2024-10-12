@@ -24,7 +24,7 @@ echo. >>%previewfile%
 :: prefixed by a random number and a colon
 ::
 setlocal EnableDelayedExpansion
-for /f %%f in ('dir /on /b icons\*.gif;icons\*.jpg;icons\*.png') do echo ^^![%%f](icons/%%f^?raw=true) >> !previewfile!
+for /f %%f in ('dir /on /b icons\*.gif;icons\*.jpg;icons\*.png;icons\*.svg') do echo ^^![%%f](icons/%%f^?raw=true) >> !previewfile!
 endlocal
 
 echo MD preview completed.
